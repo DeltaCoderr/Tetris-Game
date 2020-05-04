@@ -11,10 +11,14 @@
     float: left;
 }
 
-h2 {
-    text-align:     center;
-    padding:        0px 0px 10px 0px;
-    margin:         0px;
+h2 { 
+    color: #111;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 32px;
+    margin: 0 0 72px;
+    text-align: center;
 }
 
 #instructions {
