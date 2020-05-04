@@ -22,9 +22,14 @@ h2 {
 }
 
 #instructions {
-    float: right;
-    width: 350px;
-    margin: 0px auto 0px 0px;
+ font-family: times, Times New Roman, times-roman, georgia, serif;
+ color: #444;
+ margin: 0;
+ padding: 0px 0px 6px 0px;
+ font-size: 51px;
+ line-height: 44px;
+ letter-spacing: -2px;
+ font-weight: bold;
 }
 
 #screen {
