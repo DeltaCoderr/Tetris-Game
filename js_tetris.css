@@ -1,6 +1,7 @@
 body {
   background-color: #222222;
   background: repeating-linear-gradient(45deg, #2b2b2b 0%, #2b2b2b 10%, #222222 0%, #222222 50%) 0 / 15px 15px;
+  position: relative;
 }
 #game_screen {
     width:          434px;
@@ -38,7 +39,6 @@ p:nth-child(1) a {
   font-family: Iceland;
 }
 
-
 p:nth-child(1) a:hover {
   -webkit-animation: neon 1.5s ease-in-out infinite alternate;
   -moz-animation: neon 1.5s ease-in-out infinite alternate;
@@ -68,4 +68,14 @@ p a:hover {
 #screen {
     width: 900px;
     margin: 0px auto;
+}
+.btn{
+  position : absolute;
+  top : 20px;
+  right : 90px;
+}
+.btn a{
+  padding: 30px 20px 30px 20px;
+  font-family: "Open Sans" , sans-serif;
+  font-size: 2em;
 }
