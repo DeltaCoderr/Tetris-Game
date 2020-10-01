@@ -175,8 +175,6 @@ function randomizeTetro() {
     return storedT[randomTetro];
 }
 
-var gameStart = setInterval(updateGameState, 1000 / fps);
-
 function updateGameState() {
     drawCanvas();
     copyCanvas();
@@ -232,7 +230,7 @@ function storeKey(ev) {
             tetro.position.y+=12;
             break;
             }
-        }
+}
 
-
-    
+/* START GAME */
+setInterval(updateGameState, 1000 / fps);
