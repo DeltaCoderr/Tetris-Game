@@ -63,7 +63,7 @@ var currTetro = new Tetro("images/tetro_o.png", 12, 48, 36, 48, 36, 48)
 
 function rotateTetro() { //Rotates the tetro piece that the player is controlling
     switch (currTetro) {
-        case tetroJ: //Check what piece it is
+        case tetroJ: 
             currTetro = tetroJ1; //Rotate to left
             break
         case tetroJ1:
@@ -194,16 +194,35 @@ function resetTetro() { //After the tetro is place
     tetro.position.x = (W - 48) / 2; //Move to the starting x
 }
 
-var storedT = [tetroO, tetroI, tetroJ, tetroL, tetroT, tetroZ, tetroS];
+
+function gameOver() {
+    //Draws a game over message
+    ctx.font = "50px Tahoma";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "White";
+    ctx.fillText("GAME OVER", canvas.width/2, canvas.height/2);
+
+    clearInterval(game); //End the game
+}
+
+function checkGameOver() { //Checks if the player has lost
+    getHitInfo();
+    if (
+        tetro.position.y + currTetro.image.height == H || 
+        (currTetro.hit1.data[0] != 0 || currTetro.hit2.data[1] !=0 || currTetro.hit3.data[0] != 0)
+        ) {
+        gameOver(); //End he game
+    }
+}
+
+var storedT = [ tetroO, tetroI, tetroJ, tetroL, tetroT, tetroZ, tetroS ];
 
 function randomizeTetro() {
     //return storedT[1];
     var randomTetro = Math.floor(Math.random() * 7); //Gets a random number
     return storedT[randomTetro];//Gets a new piece based on the index of the piece and the random number
 }
-
-//Starts the game and updates the frame every (1000 / 7.5 = 133.34 seconds)
-var gameStart = setInterval(updateGameState, 1000 / fps);
 
 function updateGameState() { //Update the game state
     drawCanvas(); //Creates a new frame
@@ -212,12 +231,13 @@ function updateGameState() { //Update the game state
     moveX(); //When pressed right add x posistion, when pressed left subtract x position
     drawTetro(currTetro.image, tetro.position.x, tetro.position.y); //Draws the players tetro
     detectCollision(); //Detect any collision at the players tetro
+    checkGameOver(); //Detect if the player piece has hit the height limit
 }
 
-function getHitInfo() { //???
-    currTetro.hit1 = ctx.getImageData(tetro.position.x + currTetro.boundaryPoints[0], tetro.position.y + currTetro.boundaryPoints[1] + 1, 1, 1);
-    currTetro.hit2 = ctx.getImageData(tetro.position.x + currTetro.boundaryPoints[2], tetro.position.y + currTetro.boundaryPoints[3] + 1, 1, 1);
-    currTetro.hit3 = ctx.getImageData(tetro.position.x + currTetro.boundaryPoints[4], tetro.position.y + currTetro.boundaryPoints[5] + 1, 1, 1)
+function getHitInfo() {
+    currTetro.hit1 = ctx.getImageData(tetro.position.x+currTetro.boundaryPoints[0],tetro.position.y+currTetro.boundaryPoints[1]+1,1,1);
+    currTetro.hit2 = ctx.getImageData(tetro.position.x+currTetro.boundaryPoints[2],tetro.position.y+currTetro.boundaryPoints[3]+1,1,1);
+    currTetro.hit3 = ctx.getImageData(tetro.position.x+currTetro.boundaryPoints[4],tetro.position.y+currTetro.boundaryPoints[5]+1,1,1)   
 }
 
 function moveX() {//Moves the player piece left or right
@@ -229,9 +249,8 @@ function moveX() {//Moves the player piece left or right
 function dropDownTetro() { //Drops the tetro piece faster
     while (tetro.position.y != 0) { //While the piece didnt hit the bottom
         tetro.position.y += 12; //Go down
-        getHitInfo(); //????
+        getHitInfo();
 
-        //?????
         if (tetro.position.y + currTetro.image.height == H ||
             (currTetro.hit1.data[0] != 0 || currTetro.hit2.data[1] != 0 || currTetro.hit3.data[0] != 0)) {
             drawCanvas(); //Draw the frame
@@ -239,7 +258,7 @@ function dropDownTetro() { //Drops the tetro piece faster
             rowCheck(); //Checks if any rows are filled
             copyCanvas(); //Gets the last frame
             resetTetro(); //Move player back to start and creates a new piece
-            ITER++; //???
+            ITER++;
         }
     }
 }
@@ -265,4 +284,6 @@ function storeKey(ev) { //Stores what keys where pressed to make the player piec
     }
 }
 
-
+/* START GAME */
+//Starts the game and updates the frame every (exmaple: fps = 7.5, 1000 / 7.5 = 133.34 seconds)
+var game = setInterval(updateGameState, 1000 / fps);
