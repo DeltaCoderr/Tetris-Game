@@ -167,6 +167,26 @@ function resetTetro(){
     tetro.position.x = (W-48)/2;
 }
 
+function gameOver() {
+    ctx.font = "50px Tahoma";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "White";
+    ctx.fillText("GAME OVER", canvas.width/2, canvas.height/2);
+
+    clearInterval(game);
+}
+
+function checkGameOver() {
+    getHitInfo();
+    if (
+        tetro.position.y + currTetro.image.height == H || 
+        (currTetro.hit1.data[0] != 0 || currTetro.hit2.data[1] !=0 || currTetro.hit3.data[0] != 0)
+        ) {
+        gameOver();
+    }
+}
+
 var storedT = [ tetroO, tetroI, tetroJ, tetroL, tetroT, tetroZ, tetroS ];
 
 function randomizeTetro() {
@@ -175,8 +195,6 @@ function randomizeTetro() {
     return storedT[randomTetro];
 }
 
-var gameStart = setInterval(updateGameState, 1000 / fps);
-
 function updateGameState() {
     drawCanvas();
     copyCanvas();
@@ -184,6 +202,7 @@ function updateGameState() {
     moveX();
     drawTetro(currTetro.image,tetro.position.x,tetro.position.y);
     detectCollision();
+    checkGameOver();
 }
 
 function getHitInfo() {
@@ -232,7 +251,7 @@ function storeKey(ev) {
             tetro.position.y+=12;
             break;
             }
-        }
+}
 
-
-    
+/* START GAME */
+var game = setInterval(updateGameState, 1000 / fps);
